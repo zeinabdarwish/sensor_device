@@ -1,208 +1,53 @@
-
-
 #include <stdio.h>
-
-
-
 #include <stdlib.h>
-
-
-
 #include <string.h>
-
-
-
 #include <unistd.h>
-
-
-
 #include <sys/types.h>
-
-
-
 #include <sys/socket.h>
-
-
-
 #include <netinet/in.h>
+#include <arpa/inet.h>  // Including the necessary library for IP and socket operations
 
-
-
-#include <arpa/inet.h>  // إضافة المكتبة
-
-
-
-
-
-
-
-#define SERVER_IP "127.0.0.1"  // عنوان الخادم (نفس الجهاز في هذه الحالة)
-
-
-
-#define SERVER_PORT 8080       // المنفذ الذي يستمع عليه الخادم
-
-
-
-
-
-
+#define SERVER_IP "127.0.0.1"  // Server address (localhost in this case)
+#define SERVER_PORT 8080       // Port the server is listening on
 
 int main() {
-
-
-
     int sockfd;
-
-
-
     struct sockaddr_in server_addr;
-
-
-
     char buffer[256];
 
-
-
-    
-
-
-
-    // إنشاء مقبس (Socket)
-
-
-
+    // Create a socket (TCP)
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
-
-
     if (sockfd < 0) {
-
-
-
         perror("Error opening socket");
-
-
-
         exit(1);
-
-
-
     }
 
-
-
-
-
-
-
-    // إعداد عنوان الخادم
-
-
-
+    // Set up the server address structure
     server_addr.sin_family = AF_INET;
-
-
-
     server_addr.sin_port = htons(SERVER_PORT);
-
-
-
     server_addr.sin_addr.s_addr = inet_addr(SERVER_IP);
 
-
-
-
-
-
-
-    // الاتصال بالخادم
-
-
-
+    // Connect to the server
     if (connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-
-
-
         perror("Connection failed");
-
-
-
         exit(1);
-
-
-
     }
 
-
-
-
-
-
-
-    // إرسال طلب الخادم لقراءة درجة الحرارة
-
-
-
+    // Send a request to the server to get the temperature
     send(sockfd, "GET_TEMP", 8, 0);
 
-
-
-
-
-
-
-    // استقبال البيانات (درجة الحرارة)
-
-
-
-    memset(buffer, 0, 256);  // مسح المصفوفة
-
-
-
+    // Receive the temperature data from the server
+    memset(buffer, 0, 256);  // Clear the buffer before receiving
     int n = recv(sockfd, buffer, 255, 0);
-
-
-
     if (n < 0) {
-
-
-
         perror("Error reading from socket");
-
-
-
     }
 
-
-
-
-
-
-
-    // طباعة درجة الحرارة التي تم استلامها
-
-
-
+    // Print the temperature received from the server
     printf("Temperature from server: %s\n", buffer);
 
-
-
-
-
-
-
-    // إغلاق الاتصال
-
-
-
+    // Close the socket connection
     close(sockfd);
 
-
-
     return 0;
-
-
-
 }
-
