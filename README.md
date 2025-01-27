@@ -15,48 +15,47 @@ make
 
 # Step 3: Modify files for the sensor_device
 
-# hw/misc/Kconfig
-# Add the following configuration for the sensor_device:
-#
-# config SENSOR_DEVICE
-#     bool
+ hw/misc/Kconfig
+ Add the following configuration for the sensor_device:
+ config SENSOR_DEVICE
+ bool
 
-# hw/misc/meson.build
-# Add the following for the sensor_device:
-#
-# softmmu_ss.add(when: 'CONFIG_SENSOR_DEVICE', if_true: files('sensor_device.c'))
+ hw/misc/meson.build
+ Add the following for the sensor_device:
 
-# hw/riscv/Kconfig
-# Update the configuration for the RISC-V architecture to include sensor_device:
-#
-# select SENSOR_DEVICE
+softmmu_ss.add(when: 'CONFIG_SENSOR_DEVICE', if_true: files('sensor_device.c'))
 
-# hw/riscv/virt.c
-# Update the virt.c file to use sensor_device:
-#
-# #include "hw/misc/sensor_device.h"
-#
-# [VIRT_SENSOR_DEVICE] = { 0x4000000, 0x100 },
-#
-# sensor_device_create(memmap[VIRT_SENSOR_DEVICE].base);
+ hw/riscv/Kconfig
+ Update the configuration for the RISC-V architecture to include sensor_device:
 
-# include/hw/misc/sensor_device.h
-# Create the sensor_device header file:
-#
-# #ifndef HW_SENSOR_DEVICE_H
-# #define HW_SENSOR_DEVICE_H
-# #include "qom/object.h"
-#
-# DeviceState *sensor_device_create(hwaddr);
-#
-# #endif
+ select SENSOR_DEVICE
 
-# include/hw/riscv/virt.h
-# Update the virtual machine header to include sensor_device:
-#
-# enum { VIRT_SENSOR_DEVICE };
+ hw/riscv/virt.c
+ Update the virt.c file to use sensor_device:
 
-# Step 4: Testing the virtual device in QEMU
+ #include "hw/misc/sensor_device.h"
+
+ [VIRT_SENSOR_DEVICE] = { 0x4000000, 0x100 },
+
+ sensor_device_create(memmap[VIRT_SENSOR_DEVICE].base);
+
+ include/hw/misc/sensor_device.h
+ Create the sensor_device header file:
+
+ #ifndef HW_SENSOR_DEVICE_H
+ #define HW_SENSOR_DEVICE_H
+ #include "qom/object.h"
+
+ DeviceState *sensor_device_create(hwaddr);
+
+ #endif
+
+ include/hw/riscv/virt.h
+ Update the virtual machine header to include sensor_device:
+
+ enum { VIRT_SENSOR_DEVICE };
+
+ Step 4: Testing the virtual device in QEMU
 
 ../qemu/build/qemu-system-riscv64 \
   -M virt \
