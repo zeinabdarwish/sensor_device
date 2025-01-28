@@ -120,7 +120,7 @@ config SENSOR_DEVICE
 
 ### 4. Testing the virtual device in QEMU
 
-# Run the following command to start the virtual device in QEMU:
+ Run the following command to start the virtual device in QEMU:
 ```c
 ../qemu/build/qemu-system-riscv64 \
   -M virt \
