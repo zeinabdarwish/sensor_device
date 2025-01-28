@@ -31,7 +31,7 @@ make
 
 ### 3. Adding a Peripheral Device to QEMU
 
-1 .Create a sensor_device.c in the `hw` directory
+ 1 .Create a sensor_device.c in the `hw` directory
 
 2. hw/misc/meson.build add the following line:
 ```bash 
