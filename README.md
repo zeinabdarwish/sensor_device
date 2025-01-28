@@ -1,6 +1,6 @@
 # QEMU-RISCV
 
-## Prerequisites for Installing the QEMU Emulator
+### 1. Prerequisites for Installing the QEMU Emulator
 
 To install the required dependencies for QEMU, run the following command: 
 
@@ -9,7 +9,7 @@ To install the required dependencies for QEMU, run the following command:
 sudo apt-get install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build device-tree-compiler```  
 ```
 
-### 1. QEMU v6.0.0 Setup for RISC-V 64 Architecture
+### 2. QEMU v6.0.0 Setup for RISC-V 64 Architecture
 
 
 ```bash
@@ -20,7 +20,7 @@ git checkout v6.0.0
 make
 ```
 
-### 2. Buildroot Repository Setup
+### 3. Buildroot Repository Setup
 ```bash 
 git clone https://github.com/buildroot/buildroot.git
 cd buildroot/
@@ -29,7 +29,7 @@ make
 ```
 
 
-### 3. Adding a Peripheral Device to QEMU
+### 4. Adding a Peripheral Device to QEMU
 
  1 .Create a sensor_device.c in the `hw` directory
 
@@ -118,7 +118,7 @@ config SENSOR_DEVICE
  };
 ```
 
-### 4. Testing the virtual device in QEMU
+### 5. Testing the virtual device in QEMU
 
  Run the following command to start the virtual device in QEMU:
 ```c
@@ -134,7 +134,9 @@ config SENSOR_DEVICE
   -nographic
 
 ```
-### 5. Running the client application
+### 6. Running the client application
+
+ Create a client.c in the `hw` directory
 ```c
 ./client
 ```
